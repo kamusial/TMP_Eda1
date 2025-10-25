@@ -14,11 +14,11 @@ except Exception as e:
     print(f'Bląd {e}')
     print('Uzywam danych zapasowych')
     data = {
-        'nazwa': ['IPA', 'Lager', 'Stout', 'Pilsner', 'Wheat', 'Porter', 'Ale', 'Bock'],
-        'alkohol': [6.5, 5.0, 7.2, 4.8, 5.2, 5.8, 5.5, 6.8],
-        'goryczka': [65, np.nan, 45, 30, 15, 40, 35, 25],
-        'ocena': [4.2, 3.8, 4.5, 3.9, 3.7, 4.1, 4.0, 4.3],
-        'styl': ['IPA', 'Lager', 'Ciemne', 'Lager', np.nan, 'Ciemne', 'Jasne', 'Ciemne']
+        'nazwa': ['IPA','IPA', 'Lager', 'Stout', 'Pilsner', 'Wheat', 'Porter', 'Ale', 'Bock'],
+        'alkohol': [6.5, 6.5, 5.0, 7.2, 4.8, 5.2, 5.8, 5.5, 6.8],
+        'goryczka': [65, 65, np.nan, 45, 30, 15, 40, 35, 25],
+        'ocena': [4.2, 4.2, 3.8, 4.5, 3.9, 3.7, 4.1, 4.0, 4.3],
+        'styl': ['IPA', 'IPA', 'Lager', 'Ciemne', 'Lager', np.nan, 'Ciemne', 'Jasne', 'Ciemne']
     }
     df = pd.DataFrame(data)
 
@@ -138,10 +138,54 @@ if 'styl' in df.columns and False:
     plt.show()
 
 # Wykres 5: Macierz korelacji (jeśli są przynajmniej 2 kolumny numeryczne)
-if len(kolumny_numeryczne) >= 2:
+if len(kolumny_numeryczne) >= 2 and False:
     plt.figure(figsize=(8, 6))
     macierz_korelacji = df[kolumny_numeryczne].corr()
     sns.heatmap(macierz_korelacji, annot=True, cmap='coolwarm', center=0)
     plt.title('Korelacje między cechami numerycznymi')
     plt.tight_layout()
     plt.show()
+
+# 9. Analiza duplikatów
+print("\n" + "="*50)
+print("ANALIZA DUPLIKATÓW")
+print("="*50)
+
+duplikaty = df.duplicated()
+# print(duplikaty)
+if duplikaty.sum() > 0:
+    print(f'Znaleziono {duplikaty.sum()} zduplikowanych wierszy')
+    print('zduplikowane wiersze: ')
+    print(df[duplikaty])
+else:
+    print('Brak duplikatów')
+
+# Podsumowanie
+print("\n" + "="*50)
+
+print("PODSUMOWANIE ANALIZY")
+print("="*50)
+
+print("Analiza EDA zakończona pomyślnie!")
+print(f"Przeanalizowano {len(df)} piw")
+print(f"Liczba cech: {len(df.columns)}")
+
+if len(kolumny_numeryczne) > 0:
+    print("Znalezione cechy numeryczne:", list(kolumny_numeryczne))
+
+if len(kolumny_tekstowe) > 0:
+    print("Znalezione cechy kategoryczne:", list(kolumny_tekstowe))
+
+# najlepiej ocenione
+if 'ocena' in df.columns and 'nazwa' in df.columns:
+    print("\n3 najwyżej oceniane piwa")
+    najlepsze = df.nlargest(3, 'ocena')[['nazwa', 'ocena']]
+    print(najlepsze)
+
+# najzwyższa zawartosć alko
+if 'alkohol' in df.columns and 'nazwa' in df.columns:
+    print("\n3 piwa z najwyższą zawartością alkoholu:")
+    mocne = df.nlargest(3, 'alkohol')[['nazwa', 'alkohol']]
+    print(mocne)
+
+print("\n" + "="*50)
