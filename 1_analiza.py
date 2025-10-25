@@ -99,7 +99,7 @@ if 'alkohol' in df.columns and False:
     plt.show()
 
 # wykres 2, rozklad ocen
-if 'ocena' in df.columns:
+if 'ocena' in df.columns and False:
     plt.figure(figsize=(8, 5))
     df['ocena'].hist(bins=8, color='lightgreen', edgecolor='black', alpha=0.7)
     plt.title('Rozkład ocen piw')
@@ -109,7 +109,7 @@ if 'ocena' in df.columns:
     plt.show()
 
 # Wykres 3: Zależność między alkoholem a oceną
-if 'alkohol' in df.columns and 'ocena' in df.columns:
+if 'alkohol' in df.columns and 'ocena' in df.columns and False:
     plt.figure(figsize=(8, 6))
     plt.scatter(df['alkohol'], df['ocena'], alpha=0.6, s=60, color='purple')
     plt.title('Zależność między zawartością alkoholu a oceną')
@@ -124,3 +124,24 @@ if 'alkohol' in df.columns and 'ocena' in df.columns:
 
     plt.show()
 
+# Wykres 4: Popularność stylów piw
+
+if 'styl' in df.columns and False:
+    plt.figure(figsize=(10, 6))
+    df['styl'].value_counts().plot(kind='bar', color='orange', edgecolor='black')
+    plt.title('Popularność stylów piw')
+    plt.xlabel('Styl piwa')
+    plt.ylabel('Liczba piw')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+# Wykres 5: Macierz korelacji (jeśli są przynajmniej 2 kolumny numeryczne)
+if len(kolumny_numeryczne) >= 2:
+    plt.figure(figsize=(8, 6))
+    macierz_korelacji = df[kolumny_numeryczne].corr()
+    sns.heatmap(macierz_korelacji, annot=True, cmap='coolwarm', center=0)
+    plt.title('Korelacje między cechami numerycznymi')
+    plt.tight_layout()
+    plt.show()
