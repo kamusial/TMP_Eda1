@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-# pobieranie danych
+# 1. pobieranie danych
 
 url = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-31/beers.csv"
 
@@ -23,3 +23,29 @@ except Exception as e:
     df = pd.DataFrame(data)
 
 print(df)
+
+# 2. Podstawowe info
+print('\n' + '='*50)
+print(f'Wymiary danych: {df.shape}')
+print(f'Liczba wierszy: {df.shape[0]}')
+print(f'Liczba kolumn: {df.shape[1]}')
+
+# 3. Podgląd danych
+print("Pierwsze 5 piw:")
+print(df.head())
+print("\nOstatnie 5 piw:")
+print(df.tail())
+# print('\nDescribe')
+# print(df.describe())
+
+# 4. Typy danych
+print(f'\n{df.info()}')
+
+# 5. Statystyki numeryczne
+kolumny_numeryczne = df.select_dtypes(include='number').columns
+
+if len(kolumny_numeryczne) > 0:
+    print('Sasystyki dla chech numerycznych:')
+    print(df[kolumny_numeryczne].describe())
+else:
+    print('Brak kolumn numerycznych w danych')
